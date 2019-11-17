@@ -9,14 +9,16 @@ import org.bukkit.OfflinePlayer;
 
 import com.nisovin.magicspells.Spell;
 import com.nisovin.magicspells.MagicSpells;
+import com.nisovin.magicspells.spells.BuffSpell;
 
+import org.bukkit.inventory.PlayerInventory;
 import me.clip.placeholderapi.expansion.PlaceholderExpansion;
 
 public class MagicSpellsPAPIExtension extends PlaceholderExpansion {
     private static final String AUTHOR = "JasperLorelai";
     private static final String IDENTIFIER = "magicspells";
     private static final String PLUGIN = "MagicSpells";
-    private static final String VERSION = "1.0";
+    private static final String VERSION = "2.0";
     private MagicSpells plugin;
 
     @Override
@@ -66,7 +68,6 @@ public class MagicSpellsPAPIExtension extends PlaceholderExpansion {
                 if(args[0].isEmpty() || MagicSpells.getVariableManager().getVariable(args[0]) == null) {
                     return plugin.getName() + ": Variable '" + args[0] + "' wasn't found.";
                 }
-
                 value = MagicSpells.getVariableManager().getStringValue(args[0], player.getName());
                 if(args.length < 2) return value;
                 return setPrecision(value, args[1]);
@@ -76,7 +77,6 @@ public class MagicSpellsPAPIExtension extends PlaceholderExpansion {
                 if(args.length < 1) return plugin.getName() + ": Value must be %" + getIdentifier() + "_cooldown_[spellname]_(precision)%";
                 Spell spell = MagicSpells.getSpellByInternalName(args[0]);
                 if(spell == null) return plugin.getName() + ": Spell '" + args[0] + "' wasn't found.";
-
                 value = spell.getCooldown(player.getPlayer()) + "";
                 if(args.length < 2) return value;
                 return setPrecision(value, args[1]);
@@ -88,13 +88,29 @@ public class MagicSpellsPAPIExtension extends PlaceholderExpansion {
             // %magicspells_maxmana%
             case "maxmana":
                 return MagicSpells.getManaHandler().getMaxMana(player.getPlayer()) + "";
+
+            // %magicspells_buff_[spellname]_(precision)%
+            case "buff":
+                if(args.length < 1) return plugin.getName() + ": Value must be %" + getIdentifier() + "_buff_[spellname]_(precision)%";
+                BuffSpell buffSpell = (BuffSpell) MagicSpells.getSpellByInternalName(args[0]);
+                if(buffSpell == null) return plugin.getName() + ": Buff spell '" + args[0] + "' wasn't found.";
+                value = buffSpell.getDuration(player.getPlayer()) + "";
+                if(args.length < 2) return value;
+                return setPrecision(value, args[1]);
+
+            // %magicspells_selectedspell%
+            case "selectedspell":
+                PlayerInventory inv = player.getPlayer().getInventory();
+                if(inv == null) return null;
+                spell = MagicSpells.getSpellbook(player.getPlayer()).getActiveSpell(inv.getItemInMainHand());
+                return spell == null ? "" : spell.getInternalName();
         }
         return null;
     }
 
     public String setPrecision(String str, String precision) {
         // Return value if value isn't a floating point - can't be scaled.
-        Float floatValue;
+        float floatValue;
         try {
             floatValue = Float.parseFloat(str);
         }
