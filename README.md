@@ -1,7 +1,7 @@
-# MagicSpellsPlaceholderAPIExtention
-[**Downloads**](https://github.com/JasperLorelai/MagicSpellsPlaceholderAPIExtention/releases): ![Releases](https://img.shields.io/github/downloads/JasperLorelai/MagicSpellsPlaceholderAPIExtention/total.svg)
+# MagicSpellsPlaceholderAPIExpansion
+[**Downloads**](https://github.com/JasperLorelai/MagicSpellsPlaceholderAPIExpansion/releases): ![Releases](https://img.shields.io/github/downloads/JasperLorelai/MagicSpellsPlaceholderAPIExpansion/total.svg)
 
-[PlaceholderAPI](https://www.spigotmc.org/resources/6245/) extension for the [MagicSpells](https://github.com/TheComputerGeek2/MagicSpells/) plugin.
+[PlaceholderAPI](https://www.spigotmc.org/resources/6245/) expansion for the [MagicSpells](https://github.com/TheComputerGeek2/MagicSpells/) plugin.
 
 ## Placeholders:
 Arguments in `[]` brackets are required, while arguments in `()` brackets are optional - the placeholders work without them.
