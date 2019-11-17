@@ -3,6 +3,8 @@
 
 [PlaceholderAPI](https://www.spigotmc.org/resources/6245/) expansion for the [MagicSpells](https://github.com/TheComputerGeek2/MagicSpells/) plugin.
 
+Drop the downloaded jar file in `./plugins/PlaceholderAPI/expansions`.
+
 ## Placeholders:
 Arguments in `[]` brackets are required, while arguments in `()` brackets are optional - the placeholders work without them.
 
