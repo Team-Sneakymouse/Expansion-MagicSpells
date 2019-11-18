@@ -13,7 +13,6 @@ Arguments in `[]` brackets are required, while arguments in `()` brackets are op
 - `%magicspells_cooldown_[spellname]_(precision)%` - Returns MS spell cooldown, which can have decimal precision.
 - `%magicspells_mana%`
 - `%magicspells_maxmana%`
-- `%magicspells_maxmana%`
 
 ### Added in version `2.0`:
 - `%magicspells_buff_[spellname]_(precision)%` - Returns buff spell duration, which can have decimal precision.
