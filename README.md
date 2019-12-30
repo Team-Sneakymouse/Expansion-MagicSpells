@@ -1,19 +1,39 @@
-# MagicSpellsPlaceholderAPIExpansion
-[**Downloads**](https://github.com/JasperLorelai/MagicSpellsPlaceholderAPIExpansion/releases): ![Releases](https://img.shields.io/github/downloads/JasperLorelai/MagicSpellsPlaceholderAPIExpansion/total.svg)
+# Expansion-MagicSpells
+[**Downloads**](https://github.com/JasperLorelai/Expansion-MagicSpells/releases): ![Releases](https://img.shields.io/github/downloads/JasperLorelai/Expansion-MagicSpells/total.svg)
 
 [PlaceholderAPI](https://www.spigotmc.org/resources/6245/) expansion for the [MagicSpells](https://github.com/TheComputerGeek2/MagicSpells/) plugin.
 
 Drop the downloaded jar file in `./plugins/PlaceholderAPI/expansions`.
 
-## Placeholders:
-Arguments in `[]` brackets are required, while arguments in `()` brackets are optional - the placeholders work without them.
+## Placeholder List:
+Arguments in `[]` brackets are required, while arguments in `()` brackets are optional - the placeholders will work without them.
+Versions:
+- [1.0](#version-10)
+- [2.0](#version-20)
+- [3.0](#version-30)
 
-### Initial List:
+#### Version `1.0`:
 - `%magicspells_variable_[varname]_(precision)%` - Returns MS variable value, string or floating point - the latter can have decimal precision.
 - `%magicspells_cooldown_[spellname]_(precision)%` - Returns MS spell cooldown, which can have decimal precision.
 - `%magicspells_mana%`
 - `%magicspells_maxmana%`
 
-### Added in version `2.0`:
+#### Version `2.0`:
+- `%magicspells_variable_[varname]_(precision)%` - Returns MS variable value, string or floating point - the latter can have decimal precision.
+- `%magicspells_cooldown_[spellname]_(precision)%` - Returns MS spell cooldown, which can have decimal precision.
+- `%magicspells_mana%`
+- `%magicspells_maxmana%`
 - `%magicspells_buff_[spellname]_(precision)%` - Returns buff spell duration, which can have decimal precision.
 - `%magicspells_selectedspell%` - Returns currently selected spell on the held item (cast item).
+
+#### Version `3.0`:
+- `%magicspells_variable_[varname],(precision)%` - Returns MS variable value of the target, string or floating point.
+- `%magicspells_variable_max_[varname],(precision)%` - Returns maximal value of MS variable value of the target, floating point.
+- `%magicspells_variable_min_[varname],(precision)%` - Returns minimal value of MS variable value of the target, floating point.
+- `%magicspells_cooldown_[spellname],(precision)%` - Returns MS initial spell cooldown.
+- `%magicspells_cooldown_now_[spellname],(precision)%` - Returns current MS spell cooldown of the target.
+- `%magicspells_mana%`
+- `%magicspells_mana_max%`
+- `%magicspells_buff_[spellname],(precision)%` - Returns initial buff spell duration.
+- `%magicspells_buff_now_[spellname],(precision)%` - Returns current buff spell duration of the target.
+- `%magicspells_selectedspell%` - Returns currently selected spell of the target, on the held item (cast item).
