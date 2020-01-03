@@ -79,7 +79,6 @@ public class MagicSpellsPAPIExtension extends PlaceholderExpansion {
                             identifier = splits[0];
                             precision = splits[1];
                         }
-                        MagicSpells.getVariableManager().getVariable(identifier);
                         variable = MagicSpells.getVariableManager().getVariable(identifier);
                         if (variable == null) return plugin.getName() + ": Player/Global variable '" + identifier + "' wasn't found.";
                         value = variable.getMaxValue() + "";
