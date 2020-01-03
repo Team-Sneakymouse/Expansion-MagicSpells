@@ -1,17 +1,18 @@
 package com.jasperlorelai;
 
-import com.nisovin.magicspells.MagicSpells;
 import com.nisovin.magicspells.Spell;
+import com.nisovin.magicspells.MagicSpells;
 import com.nisovin.magicspells.spells.BuffSpell;
-import com.nisovin.magicspells.variables.GlobalVariable;
-import com.nisovin.magicspells.variables.PlayerVariable;
 import com.nisovin.magicspells.variables.Variable;
+
 import me.clip.placeholderapi.expansion.PlaceholderExpansion;
+
 import org.apache.commons.lang.StringUtils;
+
 import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.LivingEntity;
-import org.bukkit.entity.Player;
 
 import java.util.Arrays;
 
@@ -66,27 +67,27 @@ public class MagicSpellsPAPIExtension extends PlaceholderExpansion {
 
         switch (args[0]) {
             case "variable":
-                if (args.length < 3) return null;
+                if (args.length < 2) return null;
                 Variable variable;
                 switch (args[1]) {
                     // %magicspells_variable_max_[varname],(precision)%
                     case "max":
-                        if (args.length < 4) return null;
+                        if (args.length < 3) return null;
                         identifier = StringUtils.join(Arrays.copyOfRange(args, 2, args.length), '_');
                         if (identifier.contains(",")) {
                             splits = identifier.split(",");
                             identifier = splits[0];
                             precision = splits[1];
                         }
+                        MagicSpells.getVariableManager().getVariable(identifier);
                         variable = MagicSpells.getVariableManager().getVariable(identifier);
-                        if (!(variable instanceof PlayerVariable || variable instanceof GlobalVariable))
-                            return plugin.getName() + ": Player/Global variable '" + identifier + "' wasn't found.";
-                        value = variable.getMaxValue();
+                        if (variable == null) return plugin.getName() + ": Player/Global variable '" + identifier + "' wasn't found.";
+                        value = variable.getMaxValue() + "";
                         break;
 
                     // %magicspells_variable_min_[varname],(precision)%
                     case "min":
-                        if (args.length < 4) return null;
+                        if (args.length < 3) return null;
                         identifier = StringUtils.join(Arrays.copyOfRange(args, 2, args.length), '_');
                         if (identifier.contains(",")) {
                             splits = identifier.split(",");
@@ -94,9 +95,8 @@ public class MagicSpellsPAPIExtension extends PlaceholderExpansion {
                             precision = splits[1];
                         }
                         variable = MagicSpells.getVariableManager().getVariable(identifier);
-                        if (!(variable instanceof PlayerVariable || variable instanceof GlobalVariable))
-                            return plugin.getName() + ": Player/Global variable '" + identifier + "' wasn't found.";
-                        value = variable.getMinValue();
+                        if (variable == null) return plugin.getName() + ": Player/Global variable '" + identifier + "' wasn't found.";
+                        value = variable.getMinValue() + "";
                         break;
 
                     // %magicspells_variable_[varname],(precision)%
