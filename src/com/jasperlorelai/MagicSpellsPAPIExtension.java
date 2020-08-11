@@ -21,7 +21,7 @@ public class MagicSpellsPAPIExtension extends PlaceholderExpansion {
 	private static final String AUTHOR = "JasperLorelai";
 	private static final String IDENTIFIER = "magicspells";
 	private static final String PLUGIN = "MagicSpells";
-	private static final String VERSION = "3.0";
+	private static final String VERSION = "4.0";
 	private MagicSpells plugin;
 
 	@Override
@@ -61,6 +61,7 @@ public class MagicSpellsPAPIExtension extends PlaceholderExpansion {
 		if (offlinePlayer == null) return null;
 		String[] args = identifier.split("_");
 
+		Spell spell;
 		String value;
 		String[] splits;
 		String precision = null;
@@ -114,11 +115,10 @@ public class MagicSpellsPAPIExtension extends PlaceholderExpansion {
 				return precision == null ? value : Util.setPrecision(value, precision);
 
 			case "cooldown":
-				Spell spell;
 				if (args.length < 2) return null;
 				// %magicspells_cooldown_now_[spellname],(precision)%
 				if (args[1].equals("now")) identifier = StringUtils.join(Arrays.copyOfRange(args, 2, args.length), '_');
-					// %magicspells_cooldown_[spellname],(precision)%
+				// %magicspells_cooldown_[spellname],(precision)%
 				else identifier = StringUtils.join(Arrays.copyOfRange(args, 1, args.length), '_');
 
 				if (identifier.contains(",")) {
@@ -133,16 +133,25 @@ public class MagicSpellsPAPIExtension extends PlaceholderExpansion {
 				else value = spell.getCooldown() + "";
 				return precision == null ? value : Util.setPrecision(value, precision);
 
+			case "charges":
+				if (args.length < 2) return null;
+				// %magicspells_charges_consumed_[spellname]%
+				if (args[1].equals("consumed")) identifier = StringUtils.join(Arrays.copyOfRange(args, 2, args.length), '_');
+				// %magicspells_charges_[spellname]%
+				else identifier = StringUtils.join(Arrays.copyOfRange(args, 1, args.length), '_');
+				spell = MagicSpells.getSpellByInternalName(identifier);
+				if (spell == null) return plugin.getName() + ": Spell '" + identifier + "' wasn't found.";
+				return (args[1].equals("consumed") ? spell.getCharges((LivingEntity) offlinePlayer) : spell.getCharges()) + "";
+
 			case "mana":
-				if (args.length > 1 && args[1].equals("max"))
-					return MagicSpells.getManaHandler().getMaxMana(offlinePlayer.getPlayer()) + "";
+				if (args.length > 1 && args[1].equals("max")) return MagicSpells.getManaHandler().getMaxMana(offlinePlayer.getPlayer()) + "";
 				return MagicSpells.getManaHandler().getMana(offlinePlayer.getPlayer()) + "";
 
 			case "buff":
 				if (args.length < 2) return null;
 				// %magicspells_buff_now_[spellname],(precision)%
 				if (args[1].equals("now")) identifier = StringUtils.join(Arrays.copyOfRange(args, 2, args.length), '_');
-					// %magicspells_buff_[spellname],(precision)%
+				// %magicspells_buff_[spellname],(precision)%
 				else identifier = StringUtils.join(Arrays.copyOfRange(args, 1, args.length), '_');
 
 				if (identifier.contains(",")) {
