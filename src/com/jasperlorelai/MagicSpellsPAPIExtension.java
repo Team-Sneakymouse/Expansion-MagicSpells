@@ -7,6 +7,8 @@ import org.bukkit.entity.Player;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.LivingEntity;
 
+import org.jetbrains.annotations.NotNull;
+
 import org.apache.commons.lang.StringUtils;
 
 import com.nisovin.magicspells.Spell;
@@ -37,27 +39,31 @@ public class MagicSpellsPAPIExtension extends PlaceholderExpansion {
 		return super.register();
 	}
 
+	@NotNull
 	@Override
 	public String getAuthor() {
 		return AUTHOR;
 	}
 
+	@NotNull
 	@Override
 	public String getIdentifier() {
 		return IDENTIFIER;
 	}
 
+	@NotNull
 	@Override
 	public String getRequiredPlugin() {
 		return PLUGIN;
 	}
 
+	@NotNull
 	@Override
 	public String getVersion() {
 		return VERSION;
 	}
 
-	public String onRequest(OfflinePlayer offlinePlayer, String identifier) {
+	public String onRequest(OfflinePlayer offlinePlayer, @NotNull String identifier) {
 		if (offlinePlayer == null) return null;
 		String[] args = identifier.split("_");
 
