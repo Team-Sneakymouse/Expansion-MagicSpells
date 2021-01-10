@@ -25,4 +25,5 @@ public class Util {
 		// Return the scaled value.
 		return BigDecimal.valueOf(floatValue).setScale(toScale, RoundingMode.HALF_UP).toString();
 	}
+
 }

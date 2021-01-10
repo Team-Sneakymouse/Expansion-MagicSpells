@@ -181,4 +181,5 @@ public class MagicSpellsPAPIExtension extends PlaceholderExpansion {
 		}
 		return null;
 	}
+
 }
