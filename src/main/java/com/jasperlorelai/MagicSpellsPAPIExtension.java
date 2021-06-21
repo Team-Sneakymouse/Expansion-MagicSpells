@@ -15,6 +15,7 @@ import com.nisovin.magicspells.Spell;
 import com.nisovin.magicspells.MagicSpells;
 import com.nisovin.magicspells.spells.BuffSpell;
 import com.nisovin.magicspells.variables.Variable;
+import com.nisovin.magicspells.util.managers.VariableManager;
 
 import me.clip.placeholderapi.expansion.PlaceholderExpansion;
 
@@ -76,6 +77,8 @@ public class MagicSpellsPAPIExtension extends PlaceholderExpansion {
 			case "variable":
 				if (args.length < 2) return null;
 				Variable variable;
+				VariableManager manager = MagicSpells.getVariableManager();
+				if (manager == null) return null;
 				switch (args[1]) {
 					// %magicspells_variable_max_[varname],(precision)%
 					case "max":
@@ -86,7 +89,7 @@ public class MagicSpellsPAPIExtension extends PlaceholderExpansion {
 							identifier = splits[0];
 							precision = splits[1];
 						}
-						variable = MagicSpells.getVariableManager().getVariable(identifier);
+						variable = manager.getVariable(identifier);
 						if (variable == null) return plugin.getName() + ": Player/Global variable '" + identifier + "' wasn't found.";
 						value = variable.getMaxValue() + "";
 						break;
@@ -100,7 +103,7 @@ public class MagicSpellsPAPIExtension extends PlaceholderExpansion {
 							identifier = splits[0];
 							precision = splits[1];
 						}
-						variable = MagicSpells.getVariableManager().getVariable(identifier);
+						variable = manager.getVariable(identifier);
 						if (variable == null) return plugin.getName() + ": Player/Global variable '" + identifier + "' wasn't found.";
 						value = variable.getMinValue() + "";
 						break;
@@ -113,7 +116,7 @@ public class MagicSpellsPAPIExtension extends PlaceholderExpansion {
 							identifier = splits[0];
 							precision = splits[1];
 						}
-						variable = MagicSpells.getVariableManager().getVariable(identifier);
+						variable = manager.getVariable(identifier);
 						if (variable == null) return plugin.getName() + ": Variable '" + identifier + "' wasn't found.";
 						value = variable.getStringValue(offlinePlayer.getName());
 						break;
