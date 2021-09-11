@@ -16,6 +16,7 @@ import com.nisovin.magicspells.spells.BuffSpell;
 import com.nisovin.magicspells.variables.Variable;
 import com.nisovin.magicspells.util.managers.VariableManager;
 
+import me.clip.placeholderapi.PlaceholderAPI;
 import me.clip.placeholderapi.expansion.PlaceholderExpansion;
 
 public class MagicSpellsPAPIExtension extends PlaceholderExpansion {
@@ -25,7 +26,7 @@ public class MagicSpellsPAPIExtension extends PlaceholderExpansion {
 	private static final String AUTHOR = "JasperLorelai";
 	private static final String PLUGIN = "MagicSpells";
 	private static final String NAME = "magicspells";
-	private static final String VERSION = "4.2";
+	private static final String VERSION = "5.0";
 	private MagicSpells plugin;
 
 	@Override
@@ -208,6 +209,19 @@ public class MagicSpellsPAPIExtension extends PlaceholderExpansion {
 				if (player == null) return null;
 				spell = MagicSpells.getSpellbook(player).getActiveSpell(player.getInventory().getItemInMainHand());
 				return spell == null ? "" : spell.getInternalName();
+			}
+
+			case "int2hex": {
+				try {
+					return Integer.toHexString(Integer.parseInt(Util.joinArgs(args, 1)));
+				}
+				catch (NumberFormatException ignored) {
+					return null;
+				}
+			}
+
+			case "unicode": {
+				return Util.unescapeUnicode(PlaceholderAPI.setBracketPlaceholders(offlinePlayer, Util.joinArgs(args, 1)));
 			}
 		}
 		return null;
