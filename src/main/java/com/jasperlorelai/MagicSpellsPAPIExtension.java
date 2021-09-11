@@ -1,11 +1,13 @@
 package com.jasperlorelai;
 
+import org.jetbrains.annotations.NotNull;
+
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.LivingEntity;
-
-import org.jetbrains.annotations.NotNull;
+import org.bukkit.configuration.ConfigurationSection;
+import org.bukkit.configuration.file.FileConfiguration;
 
 import com.nisovin.magicspells.Spell;
 import com.nisovin.magicspells.MagicSpells;
@@ -18,9 +20,11 @@ import me.clip.placeholderapi.expansion.PlaceholderExpansion;
 
 public class MagicSpellsPAPIExtension extends PlaceholderExpansion {
 
+	private String identifier = "magicspells";
+
 	private static final String AUTHOR = "JasperLorelai";
-	private static final String IDENTIFIER = "magicspells";
 	private static final String PLUGIN = "MagicSpells";
+	private static final String NAME = "magicspells";
 	private static final String VERSION = "4.2";
 	private MagicSpells plugin;
 
@@ -34,6 +38,17 @@ public class MagicSpellsPAPIExtension extends PlaceholderExpansion {
 		if (!canRegister()) return false;
 		plugin = (MagicSpells) Bukkit.getPluginManager().getPlugin(getRequiredPlugin());
 		if (plugin == null) return false;
+		String key = "expansions." + getName();
+		FileConfiguration config = getPlaceholderAPI().getConfig();
+		ConfigurationSection section = config.getConfigurationSection(key);
+		if (section == null) {
+			identifier = "magicspells";
+			section = config.createSection(key);
+			section.set("identifier", "magicspells");
+			getPlaceholderAPI().saveConfig();
+			getPlaceholderAPI().reloadConfig();
+		}
+		else identifier = section.getString("identifier");
 		return super.register();
 	}
 
@@ -45,8 +60,14 @@ public class MagicSpellsPAPIExtension extends PlaceholderExpansion {
 
 	@NotNull
 	@Override
+	public String getName() {
+		return NAME;
+	}
+
+	@NotNull
+	@Override
 	public String getIdentifier() {
-		return IDENTIFIER;
+		return identifier;
 	}
 
 	@NotNull
