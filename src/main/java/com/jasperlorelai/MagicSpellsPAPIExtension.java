@@ -94,14 +94,14 @@ public class MagicSpellsPAPIExtension extends PlaceholderExpansion {
 		String precision = null;
 
 		switch (args[0]) {
-			case "variable": {
+			case "variable" -> {
 				if (args.length < 2) return null;
 				Variable variable;
 				VariableManager manager = MagicSpells.getVariableManager();
 				if (manager == null) return null;
 				switch (args[1]) {
 					// %magicspells_variable_max_[varname],(precision)%
-					case "max": {
+					case "max" -> {
 						if (args.length < 3) return null;
 						identifier = Util.joinArgs(args, 2);
 						if (identifier.contains(",")) {
@@ -112,11 +112,10 @@ public class MagicSpellsPAPIExtension extends PlaceholderExpansion {
 						variable = manager.getVariable(identifier);
 						if (variable == null) return plugin.getName() + ": Player/Global variable '" + identifier + "' wasn't found.";
 						value = variable.getMaxValue() + "";
-						break;
 					}
 
 					// %magicspells_variable_min_[varname],(precision)%
-					case "min": {
+					case "min" -> {
 						if (args.length < 3) return null;
 						identifier = Util.joinArgs(args, 2);
 						if (identifier.contains(",")) {
@@ -127,11 +126,10 @@ public class MagicSpellsPAPIExtension extends PlaceholderExpansion {
 						variable = manager.getVariable(identifier);
 						if (variable == null) return plugin.getName() + ": Player/Global variable '" + identifier + "' wasn't found.";
 						value = variable.getMinValue() + "";
-						break;
 					}
 
 					// %magicspells_variable_[varname],(precision)%
-					default: {
+					default -> {
 						identifier = Util.joinArgs(args, 1);
 						if (identifier.contains(",")) {
 							splits = identifier.split(",");
@@ -141,13 +139,12 @@ public class MagicSpellsPAPIExtension extends PlaceholderExpansion {
 						variable = manager.getVariable(identifier);
 						if (variable == null) return plugin.getName() + ": Variable '" + identifier + "' wasn't found.";
 						value = variable.getStringValue(offlinePlayer.getName());
-						break;
 					}
 				}
 				return precision == null ? value : Util.setPrecision(value, precision);
 			}
 
-			case "cooldown": {
+			case "cooldown" -> {
 				if (args.length < 2) return null;
 				// %magicspells_cooldown_now_[spellname],(precision)%
 				if (args[1].equals("now")) identifier = Util.joinArgs(args, 2);
@@ -167,7 +164,7 @@ public class MagicSpellsPAPIExtension extends PlaceholderExpansion {
 				return precision == null ? value : Util.setPrecision(value, precision);
 			}
 
-			case "charges": {
+			case "charges" -> {
 				if (args.length < 2) return null;
 				// %magicspells_charges_consumed_[spellname]%
 				if (args[1].equals("consumed")) identifier = Util.joinArgs(args, 2);
@@ -178,13 +175,13 @@ public class MagicSpellsPAPIExtension extends PlaceholderExpansion {
 				return (args[1].equals("consumed") ? spell.getCharges((LivingEntity) offlinePlayer) : spell.getCharges()) + "";
 			}
 
-			case "mana": {
+			case "mana" -> {
 				if (player == null) return null;
 				ManaHandler handler = MagicSpells.getManaHandler();
 				return "" + (args.length > 1 && args[1].equals("max") ? handler.getMaxMana(player) : handler.getMana(player));
 			}
 
-			case "buff": {
+			case "buff" -> {
 				if (args.length < 2) return null;
 				if (player == null) return null;
 				// %magicspells_buff_now_[spellname],(precision)%
@@ -205,13 +202,13 @@ public class MagicSpellsPAPIExtension extends PlaceholderExpansion {
 				return precision == null ? value : Util.setPrecision(value, precision);
 			}
 
-			case "selectedspell": {
+			case "selectedspell" -> {
 				if (player == null) return null;
 				spell = MagicSpells.getSpellbook(player).getActiveSpell(player.getInventory().getItemInMainHand());
 				return spell == null ? "" : spell.getInternalName();
 			}
 
-			case "int2hex": {
+			case "int2hex" -> {
 				try {
 					String text = Util.joinArgs(args, 1);
 					splits = text.split(",", 2);
@@ -222,13 +219,12 @@ public class MagicSpellsPAPIExtension extends PlaceholderExpansion {
 						text = "0" + text;
 					}
 					return text;
-				}
-				catch (NumberFormatException ignored) {
+				} catch (NumberFormatException ignored) {
 					return null;
 				}
 			}
 
-			case "unicode": {
+			case "unicode" -> {
 				return Util.unescapeUnicode(PlaceholderAPI.setBracketPlaceholders(offlinePlayer, Util.joinArgs(args, 1)));
 			}
 		}
