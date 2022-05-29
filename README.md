@@ -13,6 +13,7 @@ Versions:
 - [3.0](#version-30)
 - [4.0](#version-40)
 - [5.0](#version-51)
+- [7.0](#version-70)
 
 #### Version `1.0`:
 - `%magicspells_variable_[varname]_(precision)%` - Returns MS variable value, string or floating point - the latter can have decimal precision.
@@ -26,7 +27,7 @@ Versions:
 - `%magicspells_mana%`
 - `%magicspells_maxmana%`
 - `%magicspells_buff_[spellname]_(precision)%` - Returns buff spell duration, which can have decimal precision.
-- `%magicspells_selectedspell%` - Returns currently selected spell on the held item (cast item).
+- `%magicspells_selectedspell%` - Returns the internal name of the selected spell on the target's item.
 
 #### Version `3.0`:
 - `%magicspells_variable_[varname],(precision)%` - Returns MS variable value of the target, string or floating point.
@@ -38,7 +39,7 @@ Versions:
 - `%magicspells_mana_max%`
 - `%magicspells_buff_[spellname],(precision)%` - Returns initial buff spell duration.
 - `%magicspells_buff_now_[spellname],(precision)%` - Returns current buff spell duration of the target.
-- `%magicspells_selectedspell%` - Returns currently selected spell of the target, on the held item (cast item).
+- `%magicspells_selectedspell%` - Returns the internal name of the selected spell on the target's item.
 
 #### Version `4.0`:
 - `%magicspells_variable_[varname],(precision)%` - Returns MS variable value of the target, string or floating point.
@@ -52,7 +53,7 @@ Versions:
 - `%magicspells_mana_max%`
 - `%magicspells_buff_[spellname],(precision)%` - Returns initial buff spell duration.
 - `%magicspells_buff_now_[spellname],(precision)%` - Returns current buff spell duration of the target.
-- `%magicspells_selectedspell%` - Returns currently selected spell of the target, on the held item (cast item).
+- `%magicspells_selectedspell%` - Returns the internal name of the selected spell on the target's item.
 
 #### Version `5.1`:
 - `%magicspells_variable_[varname],(precision)%` - Returns MS variable value of the target, string or floating point.
@@ -66,6 +67,23 @@ Versions:
 - `%magicspells_mana_max%`
 - `%magicspells_buff_[spellname],(precision)%` - Returns initial buff spell duration.
 - `%magicspells_buff_now_[spellname],(precision)%` - Returns current buff spell duration of the target.
-- `%magicspells_selectedspell%` - Returns currently selected spell of the target, on the held item (cast item).
-- `%magicspells_int2hex_[int],(empty)%` - Converts integers to hex. Useful for translating MS number variables to hex, combined with the unicode placeholder. Optional `empty` parameter should be a number of zeros to prepend. Optional because 4 is the default value. 
+- `%magicspells_selectedspell%` - Returns the internal name of the selected spell on the target's item.
+- `%magicspells_int2hex_[int],(empty)%` - Converts integers to hex. Useful for translating MS number variables to hex, combined with the unicode placeholder. Optional `empty` parameter should be a number of zeros to prepend. Optional because 4 is the default value.
+- `%magicspells_unicode_[string]%` - Parses anything matching the unicode format to its character. (Format: `\uXXXX`)
+
+#### Version `7.0`:
+- `%magicspells_variable_[varname],(precision)%` - Returns MS variable value of the target, string or floating point.
+- `%magicspells_variable_max_[varname],(precision)%` - Returns maximal value of MS variable value of the target, floating point.
+- `%magicspells_variable_min_[varname],(precision)%` - Returns minimal value of MS variable value of the target, floating point.
+- `%magicspells_cooldown_[spellname],(precision)%` - Returns MS initial spell cooldown.
+- `%magicspells_cooldown_now_[spellname],(precision)%` - Returns current MS spell cooldown of the target.
+- `%magicspells_charges_[spellname]%` - Returns MS initial spell charges.
+- `%magicspells_charges_consumed_[spellname]%` - Returns consumed charges of the target.
+- `%magicspells_mana%`
+- `%magicspells_mana_max%`
+- `%magicspells_buff_[spellname],(precision)%` - Returns initial buff spell duration.
+- `%magicspells_buff_now_[spellname],(precision)%` - Returns current buff spell duration of the target.
+- `%magicspells_selectedspell%` - Returns the internal name of the selected spell on the target's item.
+- `%magicspells_selectedspell_displayed%` - Returns the external name of the selected spell (from `name` property) on the target's item.
+- `%magicspells_int2hex_[int],(empty)%` - Converts integers to hex. Useful for translating MS number variables to hex, combined with the unicode placeholder. Optional `empty` parameter should be a number of zeros to prepend. Optional because 4 is the default value.
 - `%magicspells_unicode_[string]%` - Parses anything matching the unicode format to its character. (Format: `\uXXXX`)

@@ -26,7 +26,7 @@ public class MagicSpellsPAPIExtension extends PlaceholderExpansion {
 	private static final String AUTHOR = "JasperLorelai";
 	private static final String PLUGIN = "MagicSpells";
 	private static final String NAME = "magicspells";
-	private static final String VERSION = "6.0";
+	private static final String VERSION = "7.0";
 	private MagicSpells plugin;
 
 	@Override
@@ -109,6 +109,7 @@ public class MagicSpellsPAPIExtension extends PlaceholderExpansion {
 							identifier = splits[0];
 							precision = splits[1];
 						}
+						identifier = PlaceholderAPI.setBracketPlaceholders(offlinePlayer, identifier);
 						variable = manager.getVariable(identifier);
 						if (variable == null) return plugin.getName() + ": Player/Global variable '" + identifier + "' wasn't found.";
 						value = variable.getMaxValue() + "";
@@ -123,6 +124,7 @@ public class MagicSpellsPAPIExtension extends PlaceholderExpansion {
 							identifier = splits[0];
 							precision = splits[1];
 						}
+						identifier = PlaceholderAPI.setBracketPlaceholders(offlinePlayer, identifier);
 						variable = manager.getVariable(identifier);
 						if (variable == null) return plugin.getName() + ": Player/Global variable '" + identifier + "' wasn't found.";
 						value = variable.getMinValue() + "";
@@ -136,43 +138,38 @@ public class MagicSpellsPAPIExtension extends PlaceholderExpansion {
 							identifier = splits[0];
 							precision = splits[1];
 						}
+						identifier = PlaceholderAPI.setBracketPlaceholders(offlinePlayer, identifier);
 						variable = manager.getVariable(identifier);
 						if (variable == null) return plugin.getName() + ": Variable '" + identifier + "' wasn't found.";
 						value = variable.getStringValue(offlinePlayer.getName());
 					}
 				}
-				return precision == null ? value : Util.setPrecision(value, precision);
+				return Util.setPrecision(value, precision);
 			}
 
 			case "cooldown" -> {
 				if (args.length < 2) return null;
-				// %magicspells_cooldown_now_[spellname],(precision)%
-				if (args[1].equals("now")) identifier = Util.joinArgs(args, 2);
-				// %magicspells_cooldown_[spellname],(precision)%
-				else identifier = Util.joinArgs(args, 1);
-
+				boolean isNow = args[1].equals("now");
+				identifier = Util.joinArgs(args, isNow ? 2 : 1);
 				if (identifier.contains(",")) {
 					splits = identifier.split(",");
 					identifier = splits[0];
 					precision = splits[1];
 				}
+				identifier = PlaceholderAPI.setBracketPlaceholders(offlinePlayer, identifier);
 				spell = MagicSpells.getSpellByInternalName(identifier);
 				if (spell == null) return plugin.getName() + ": Spell '" + identifier + "' wasn't found.";
-
-				if (args[1].equals("now")) value = spell.getCooldown((LivingEntity) offlinePlayer) + "";
-				else value = spell.getCooldown() + "";
-				return precision == null ? value : Util.setPrecision(value, precision);
+				return Util.setPrecision("" + (isNow ? spell.getCooldown((LivingEntity) offlinePlayer) : spell.getCooldown()), precision);
 			}
 
 			case "charges" -> {
 				if (args.length < 2) return null;
-				// %magicspells_charges_consumed_[spellname]%
-				if (args[1].equals("consumed")) identifier = Util.joinArgs(args, 2);
-				// %magicspells_charges_[spellname]%
-				else identifier = Util.joinArgs(args, 1);
+				boolean isConsumed = args[1].equals("consumed");
+				identifier = Util.joinArgs(args, isConsumed ? 2 : 1);
+				identifier = PlaceholderAPI.setBracketPlaceholders(offlinePlayer, identifier);
 				spell = MagicSpells.getSpellByInternalName(identifier);
 				if (spell == null) return plugin.getName() + ": Spell '" + identifier + "' wasn't found.";
-				return (args[1].equals("consumed") ? spell.getCharges((LivingEntity) offlinePlayer) : spell.getCharges()) + "";
+				return (isConsumed ? spell.getCharges((LivingEntity) offlinePlayer) : spell.getCharges()) + "";
 			}
 
 			case "mana" -> {
@@ -184,28 +181,24 @@ public class MagicSpellsPAPIExtension extends PlaceholderExpansion {
 			case "buff" -> {
 				if (args.length < 2) return null;
 				if (player == null) return null;
-				// %magicspells_buff_now_[spellname],(precision)%
-				if (args[1].equals("now")) identifier = Util.joinArgs(args, 2);
-				// %magicspells_buff_[spellname],(precision)%
-				else identifier = Util.joinArgs(args, 1);
-
+				boolean isNow = args[1].equals("now");
+				identifier = Util.joinArgs(args, isNow ? 2 : 1);
 				if (identifier.contains(",")) {
 					splits = identifier.split(",");
 					identifier = splits[0];
 					precision = splits[1];
 				}
+				identifier = PlaceholderAPI.setBracketPlaceholders(offlinePlayer, identifier);
 				BuffSpell buffSpell = (BuffSpell) MagicSpells.getSpellByInternalName(identifier);
 				if (buffSpell == null) return plugin.getName() + ": Buff spell '" + args[0] + "' wasn't found.";
-
-				if (args[1].equals("now")) value = buffSpell.getDuration(player) + "";
-				else value = buffSpell.getDuration() + "";
-				return precision == null ? value : Util.setPrecision(value, precision);
+				return Util.setPrecision("" + (isNow ? buffSpell.getDuration(player) : buffSpell.getDuration()), precision);
 			}
 
 			case "selectedspell" -> {
 				if (player == null) return null;
 				spell = MagicSpells.getSpellbook(player).getActiveSpell(player.getInventory().getItemInMainHand());
-				return spell == null ? "" : spell.getInternalName();
+				if (spell == null) return "";
+				return args.length > 1 && args[1].equals("displayed") ? spell.getName() : spell.getInternalName();
 			}
 
 			case "int2hex" -> {

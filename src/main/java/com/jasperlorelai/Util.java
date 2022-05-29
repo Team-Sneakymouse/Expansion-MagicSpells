@@ -13,6 +13,7 @@ public class Util {
 	private static final Pattern UNICODE_PATTERN = Pattern.compile("\\\\u([0-9A-Fa-f]{4})");
 
 	public static String setPrecision(String str, String precision) {
+		if (precision == null) return str;
 		// Return value if value isn't a floating point - can't be scaled.
 		try {
 			float floatValue = Float.parseFloat(str);
