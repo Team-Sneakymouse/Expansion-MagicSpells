@@ -21,5 +21,5 @@ repositories {
 dependencies {
     compileOnly "io.papermc.paper:paper-api:1.18.2-R0.1-SNAPSHOT"
     compileOnly "me.clip:placeholderapi:2.10.10"
-    compileOnly "com.github.TheComputerGeek2.MagicSpells:core:artifact-coordinates-SNAPSHOT:dev-all"
+    implementation "com.github.TheComputerGeek2.MagicSpells:core:main-SNAPSHOT:dev"
 }
