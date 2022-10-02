@@ -19,7 +19,7 @@ repositories {
 }
 
 dependencies {
-    compileOnly "io.papermc.paper:paper-api:1.18.2-R0.1-SNAPSHOT"
-    compileOnly "me.clip:placeholderapi:2.10.10"
+    compileOnly "io.papermc.paper:paper-api:1.19.2-R0.1-SNAPSHOT"
+    compileOnly "me.clip:placeholderapi:2.11.2"
     implementation "com.github.TheComputerGeek2.MagicSpells:core:main-SNAPSHOT:dev"
 }
