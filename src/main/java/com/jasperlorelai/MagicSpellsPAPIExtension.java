@@ -73,7 +73,7 @@ public class MagicSpellsPAPIExtension extends PlaceholderExpansion {
 		if (offlinePlayer == null || !offlinePlayer.isOnline()) return null;
 		Player player = (Player) offlinePlayer;
 
-        String[] splits = identifier.split("_", 2);
+		String[] splits = identifier.split("_", 2);
 		String name = splits[0];
 		String args = splits.length > 1 ? splits[1] : null;
 
