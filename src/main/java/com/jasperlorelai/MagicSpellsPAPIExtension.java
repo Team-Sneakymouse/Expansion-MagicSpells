@@ -99,13 +99,20 @@ public class MagicSpellsPAPIExtension extends PlaceholderExpansion {
 	 */
 	private String processVariable(Player player, String args) {
 		if (args == null) return null;
+
 		String[] splits = args.split("_", 2);
 		String type = splits[0];
 		boolean isMax = type.equals("max");
 		boolean isMin = type.equals("min");
 		boolean isCur = !isMax && !isMin;
 
-		String varName = isCur ? args : splits[1];
+		String varName;
+		if (isCur) varName = args;
+		else {
+			if (splits.length < 2) return null;
+			varName = splits[1];
+		}
+
 		String precision = null;
 		if (varName.contains(",")) {
 			splits = varName.split(",", 2);
@@ -133,9 +140,16 @@ public class MagicSpellsPAPIExtension extends PlaceholderExpansion {
 	 */
 	private String processCooldown(Player player, String args) {
 		if (args == null) return null;
+
 		String[] splits = args.split("_", 2);
 		boolean isNow = splits[0].equals("now");
-		String spellName = isNow ? splits[1] : args;
+		String spellName;
+		if (isNow) {
+			if (splits.length < 2) return null;
+			spellName = splits[1];
+		}
+		else spellName = args;
+
 		String precision = null;
 		if (spellName.contains(",")) {
 			splits = spellName.split(",", 2);
@@ -157,9 +171,16 @@ public class MagicSpellsPAPIExtension extends PlaceholderExpansion {
 	 */
 	private String processCharges(Player player, String args) {
 		if (args == null) return null;
+
 		String[] splits = args.split("_", 2);
 		boolean isConsume = splits[0].equals("consumed");
-		String spellName = PlaceholderAPI.setBracketPlaceholders(player, isConsume ? splits[1] : args);
+		String spellName;
+		if (isConsume) {
+			if (splits.length < 2) return null;
+			spellName = splits[1];
+		}
+		else spellName = args;
+		spellName = PlaceholderAPI.setBracketPlaceholders(player, spellName);
 
 		Spell spell = MagicSpells.getSpellByInternalName(spellName);
 		if (spell == null) return error("Spell '" + spellName + "' wasn't found.");
@@ -172,6 +193,7 @@ public class MagicSpellsPAPIExtension extends PlaceholderExpansion {
 	 */
 	private String processMana(Player player, String args) {
 		boolean isMax = args != null && args.equals("max");
+
 		ManaHandler handler = MagicSpells.getManaHandler();
 		return (isMax ? handler.getMaxMana(player) : handler.getMana(player)) + "";
 	}
@@ -182,15 +204,23 @@ public class MagicSpellsPAPIExtension extends PlaceholderExpansion {
 	 */
 	private String processBuff(Player player, String args) {
 		if (args == null) return null;
+
 		String[] splits = args.split("_", 2);
 		boolean isNow = splits[0].equals("now");
-		String spellName = isNow ? splits[1] : args;
+		String spellName;
+		if (isNow) {
+			if (splits.length < 2) return null;
+			spellName = splits[1];
+		}
+		else spellName = args;
+
 		String precision = null;
 		if (spellName.contains(",")) {
 			splits = spellName.split(",", 2);
 			spellName = splits[0];
 			precision = splits[1];
 		}
+
 		spellName = PlaceholderAPI.setBracketPlaceholders(player, spellName);
 		Spell spell = MagicSpells.getSpellByInternalName(spellName);
 		if (!(spell instanceof BuffSpell buff)) return error("Buff spell '" + spellName + "' not found.");
@@ -203,10 +233,11 @@ public class MagicSpellsPAPIExtension extends PlaceholderExpansion {
 	 * selectedspell displayed
 	 */
 	private String processSelectedSpell(Player player, String args) {
-		boolean isDis = args != null && args.equals("displayed");
-		Spell spell = MagicSpells.getSpellbook(player).getActiveSpell(player.getInventory().getItemInMainHand());
+		boolean isDisplayed = args != null && args.equals("displayed");
 
-		return spell == null ? "" : (isDis ? Util.colorise(spell.getName()) : spell.getInternalName());
+		Spell spell = MagicSpells.getSpellbook(player).getActiveSpell(player.getInventory().getItemInMainHand());
+		if (spell == null) return "";
+		return isDisplayed ? Util.colorise(spell.getName()) : spell.getInternalName();
 	}
 
 }
