@@ -124,7 +124,7 @@ public class MagicSpellsPAPIExtension extends PlaceholderExpansion {
 
 		VariableManager manager = MagicSpells.getVariableManager();
 		if (manager == null) return null;
-		varName = PlaceholderAPI.setBracketPlaceholders(player, varName);
+		varName = PlaceholderAPI.setBracketPlaceholders(player, varName).trim();
 		Variable variable = manager.getVariable(varName);
 		if (variable == null) return error("Variable '" + varName + "' wasn't found.");
 
@@ -175,7 +175,7 @@ public class MagicSpellsPAPIExtension extends PlaceholderExpansion {
 			precision = splits[1];
 		}
 
-		spellName = PlaceholderAPI.setBracketPlaceholders(player, spellName);
+		spellName = PlaceholderAPI.setBracketPlaceholders(player, spellName).trim();
 		Spell spell = MagicSpells.getSpellByInternalName(spellName);
 		if (spell == null) return error("Spell '" + spellName + "' wasn't found.");
 
@@ -204,7 +204,7 @@ public class MagicSpellsPAPIExtension extends PlaceholderExpansion {
 			spellName = splits[1];
 		}
 		else spellName = args;
-		spellName = PlaceholderAPI.setBracketPlaceholders(player, spellName);
+		spellName = PlaceholderAPI.setBracketPlaceholders(player, spellName).trim();
 		Spell spell = MagicSpells.getSpellByInternalName(spellName);
 		if (spell == null) return error("Spell '" + spellName + "' wasn't found.");
 
@@ -250,7 +250,7 @@ public class MagicSpellsPAPIExtension extends PlaceholderExpansion {
 			precision = splits[1];
 		}
 
-		spellName = PlaceholderAPI.setBracketPlaceholders(player, spellName);
+		spellName = PlaceholderAPI.setBracketPlaceholders(player, spellName).trim();
 		Spell spell = MagicSpells.getSpellByInternalName(spellName);
 		if (!(spell instanceof BuffSpell buff)) return error("Buff spell '" + spellName + "' not found.");
 
