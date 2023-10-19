@@ -14,6 +14,7 @@ import com.nisovin.magicspells.MagicSpells;
 import com.nisovin.magicspells.mana.ManaHandler;
 import com.nisovin.magicspells.spells.BuffSpell;
 import com.nisovin.magicspells.variables.Variable;
+import com.nisovin.magicspells.util.data.DataLivingEntity;
 import com.nisovin.magicspells.util.managers.VariableManager;
 import com.nisovin.magicspells.variables.variabletypes.GlobalVariable;
 import com.nisovin.magicspells.variables.variabletypes.GlobalStringVariable;
@@ -85,6 +86,7 @@ public class MagicSpellsPAPIExtension extends PlaceholderExpansion {
 			case "mana" -> processMana(player, args);
 			case "buff" -> processBuff(player, args);
 			case "selectedspell" -> processSelectedSpell(player, args);
+			case "data" -> processDataElement(player, args);
 			default -> null;
 		};
 	}
@@ -275,6 +277,15 @@ public class MagicSpellsPAPIExtension extends PlaceholderExpansion {
 		Spell spell = MagicSpells.getSpellbook(player).getActiveSpell(player.getInventory().getItemInMainHand());
 		if (spell == null) return "";
 		return isDisplayed ? Util.colorise(spell.getName()) : spell.getInternalName();
+	}
+
+	private String processDataElement(Player player, String args) {
+		if (args == null) return null;
+		try {
+			return DataLivingEntity.getDataFunction(PlaceholderAPI.setBracketPlaceholders(player, args)).apply(player);
+		} catch (NullPointerException exception) {
+			return error(exception.getMessage());
+		}
 	}
 
 }
