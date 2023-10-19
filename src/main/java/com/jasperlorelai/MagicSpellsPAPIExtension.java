@@ -25,7 +25,7 @@ public class MagicSpellsPAPIExtension extends PlaceholderExpansion {
 	private static final String IDENTIFIER = "ms";
 	private static final String PLUGIN = "MagicSpells";
 	private static final String NAME = "magicspells";
-	private static final String VERSION = "1.0.0";
+	private static final String VERSION = "1.1.0";
 
 	private MagicSpells plugin;
 
