@@ -3,6 +3,7 @@ package eu.jasperlorelai.mspapiexpansion;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.OfflinePlayer;
+import org.bukkit.inventory.ItemStack;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -14,6 +15,8 @@ import com.nisovin.magicspells.MagicSpells;
 import com.nisovin.magicspells.mana.ManaHandler;
 import com.nisovin.magicspells.spells.BuffSpell;
 import com.nisovin.magicspells.variables.Variable;
+import com.nisovin.magicspells.util.magicitems.MagicItem;
+import com.nisovin.magicspells.util.magicitems.MagicItems;
 import com.nisovin.magicspells.util.data.DataLivingEntity;
 import com.nisovin.magicspells.util.managers.VariableManager;
 import com.nisovin.magicspells.variables.variabletypes.GlobalVariable;
@@ -87,6 +90,7 @@ public class MagicSpellsPAPIExtension extends PlaceholderExpansion {
 			case "buff" -> processBuff(player, args);
 			case "selectedspell" -> processSelectedSpell(player, args);
 			case "data" -> processDataElement(player, args);
+			case "item" -> processMagicItem(args);
 			default -> null;
 		};
 	}
@@ -289,6 +293,34 @@ public class MagicSpellsPAPIExtension extends PlaceholderExpansion {
 		} catch (NullPointerException exception) {
 			return error(exception.getMessage());
 		}
+	}
+
+	/**
+	 * item ms     [magicItemName]
+	 * item nbt    [magicItemName]
+	 * item amount [magicItemName]
+	 */
+	private String processMagicItem(String args) {
+		if (args == null) return null;
+		String[] splits = args.split("_", 2);
+		if (splits.length < 2) return null;
+
+		String type = splits[0];
+		String itemName = splits[1];
+		MagicItem magicItem = MagicItems.getMagicItemByInternalName(itemName);
+		if (magicItem == null) return error("Item '" + itemName + "' not found.");
+		ItemStack item = magicItem.getItemStack();
+
+		return switch (type) {
+			case "ms" -> magicItem.getMagicItemData().toString();
+			case "nbt" -> {
+				String data = item.getType().getKey().toString();
+				if (item.hasItemMeta()) data += item.getItemMeta().getAsString();
+				yield data;
+			}
+			case "amount" -> String.valueOf(item.getAmount());
+			default -> null;
+		};
 	}
 
 }
