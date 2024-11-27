@@ -22,3 +22,8 @@ dependencies {
     implementation("me.clip:placeholderapi:2.11.6")
     implementation("com.github.TheComputerGeek2.MagicSpells:core:47ecdbbae0") {transitive = false}
 }
+
+build {
+    if (version.toString().split("\\.")[0].toInteger() <= 2) return
+    throw new Error("Remove getCooldown() compatibility method.")
+}
