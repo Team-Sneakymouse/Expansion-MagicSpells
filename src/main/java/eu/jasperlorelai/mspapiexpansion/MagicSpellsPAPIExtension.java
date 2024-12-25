@@ -139,8 +139,8 @@ public class MagicSpellsPAPIExtension extends PlaceholderExpansion {
 
 		String value = null;
 		switch (type) {
-			case MAX -> value = String.valueOf(variable.getMaxValue());
-			case MIN -> value = String.valueOf(variable.getMinValue());
+			case MAX -> value = String.valueOf(variable.getMaxValue(player));
+			case MIN -> value = String.valueOf(variable.getMinValue(player));
 			case CURRENT -> {
 				if (variable instanceof GlobalVariable || variable instanceof GlobalStringVariable) {
 					value = variable.getStringValue((String) null);
@@ -193,25 +193,9 @@ public class MagicSpellsPAPIExtension extends PlaceholderExpansion {
 			if (player == null) return error("Player target not found.");
 			else cooldown = spell.getCooldown(player);
 		}
-		else cooldown = getCooldown(spell);
+		else cooldown = 0;
 
 		return Util.setPrecision(String.valueOf(cooldown), precision);
-	}
-
-	/**
-	 * Version compatibility method.
-	 */
-	@SuppressWarnings("RedundantSuppression,UnreachableCode")
-	private float getCooldown(Spell spell) {
-		try {
-			Object object = Spell.class.getMethod("getCooldown").invoke(spell);
-			//noinspection ConstantValue
-			if (object instanceof Float data) return data;
-			if (object instanceof ConfigData<?> data && data.isConstant()) {
-				return (float) data.get();
-			}
-		} catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException | ClassCastException ignored) {}
-		return 0;
 	}
 
 	/**
